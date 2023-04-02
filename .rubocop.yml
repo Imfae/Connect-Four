@@ -1,0 +1,8 @@
+Metrics/BlockLength:
+  Include:
+    - 'lib/*'
+  Exclude:
+    - 'spec/*'
+Layout/LineLength:
+  Exclude:
+    - 'spec/*'
