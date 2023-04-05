@@ -9,20 +9,14 @@ class Board
   end
 
   def display_board
+    puts '1 2 3 4 5 6 7'
     puts @game_board.join("\n")
   end
 
-  def update_board(player, column)
-    row_number = 5
-    while row_number >= 0
-      target_peg = @game_board[row_number].split[column - 1]
-      break if target_peg == @empty_peg
-
-      row_number -= 1
-    end
-    @game_board[row_number] = @game_board[row_number].split
-    @game_board[row_number][column - 1] = (player == 'red' ? @red_peg : @blue_peg)
-    @game_board[row_number] = @game_board[row_number].join(' ')
+  def update_board(player, row, column)
+    @game_board[5 - row] = @game_board[5 - row].split
+    @game_board[5 - row][column - 1] = (player == 'red' ? @red_peg : @blue_peg)
+    @game_board[5 - row] = @game_board[5 - row].join(' ')
     display_board
   end
 

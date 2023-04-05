@@ -2,10 +2,10 @@ require_relative '../lib/board'
 
 describe Board do
 
+  subject(:board) { described_class.new }
   let(:empty_peg) { "\u25ef" }
   let(:red_peg) { "\e[91m\u2b24\e[0m" }
   let(:blue_peg) { "\e[94m\u2b24\e[0m" }
-  let(:board) { described_class.new }
 
   describe 'new board' do
 
@@ -42,7 +42,7 @@ describe Board do
 
           expect(board).to receive(:puts).with(new_board)
 
-          board.update_board('red', 1)
+          board.update_board('red', 0, 1)
         end
       end
 
@@ -60,7 +60,7 @@ describe Board do
 
           expect(board).to receive(:puts).with(new_board)
 
-          board.update_board('blue', 5)
+          board.update_board('blue', 0, 5)
         end
       end
     end
@@ -94,7 +94,7 @@ describe Board do
 
           expect(board).to receive(:puts).with(new_board)
 
-          board.update_board('red', 1)
+          board.update_board('red', 2, 1)
         end
       end
 
@@ -125,7 +125,7 @@ describe Board do
 
           expect(board).to receive(:puts).with(new_board)
 
-          board.update_board('blue', 7)
+          board.update_board('blue', 3, 7)
         end
       end
 
@@ -156,7 +156,7 @@ describe Board do
 
           expect(board).to receive(:puts).with(new_board)
 
-          board.update_board('blue', 4)
+          board.update_board('blue', 5, 4)
         end
       end
     end
