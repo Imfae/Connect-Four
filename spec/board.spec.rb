@@ -6,6 +6,8 @@ describe Board do
   let(:empty_peg) { "\u25ef" }
   let(:red_peg) { "\e[91m\u2b24\e[0m" }
   let(:blue_peg) { "\e[94m\u2b24\e[0m" }
+  let(:red_win) { Array.new(4, red_peg) }
+  let(:blue_win) { Array.new(4, blue_peg) }
 
   describe 'new board' do
 
@@ -20,11 +22,14 @@ describe Board do
       HEREDOC
 
       expect(board).to receive(:puts).with(new_board)
+      expect(board).to receive(:puts).with('1 2 3 4 5 6 7')
       board.display_board
     end
   end
   
   describe '#update_board' do
+
+    before { expect(board).to receive(:puts).with('1 2 3 4 5 6 7') }
 
     context 'when target column is empty' do
       
@@ -41,7 +46,7 @@ describe Board do
           HEREDOC
 
           expect(board).to receive(:puts).with(new_board)
-
+          
           board.update_board('red', 0, 1)
         end
       end
@@ -179,8 +184,8 @@ describe Board do
         board.instance_variable_set(:@game_board, preset_board)
       end
 
-      it 'returns true' do
-        expect(board).to be_horizontal_win
+      it 'returns true for red' do
+        expect(board).to be_horizontal_win(red_win)
       end
     end
 
@@ -199,8 +204,8 @@ describe Board do
         board.instance_variable_set(:@game_board, preset_board)
       end
 
-      it 'returns false' do
-        expect(board).not_to be_horizontal_win
+      it 'returns false for blue' do
+        expect(board).not_to be_horizontal_win(blue_win)
       end
     end
   end
@@ -222,8 +227,8 @@ describe Board do
         board.instance_variable_set(:@game_board, preset_board)
       end
 
-      it 'returns true' do
-        expect(board).to be_vertical_win
+      it 'returns true for red' do
+        expect(board).to be_vertical_win(red_win)
       end
     end
 
@@ -242,8 +247,8 @@ describe Board do
         board.instance_variable_set(:@game_board, preset_board)
       end
 
-      it 'returns false' do
-        expect(board).not_to be_vertical_win
+      it 'returns false for blue' do
+        expect(board).not_to be_vertical_win(blue_win)
       end
     end
   end
@@ -265,8 +270,8 @@ describe Board do
         board.instance_variable_set(:@game_board, preset_board)
       end
 
-      it 'returns true' do
-        expect(board).to be_diagonal_win
+      it 'returns true for red' do
+        expect(board).to be_diagonal_win(red_win)
       end
     end
 
@@ -285,8 +290,8 @@ describe Board do
         board.instance_variable_set(:@game_board, preset_board)
       end
 
-      it 'returns true' do
-        expect(board).to be_diagonal_win
+      it 'returns true for blue' do
+        expect(board).to be_diagonal_win(blue_win)
       end
     end
 
@@ -305,8 +310,8 @@ describe Board do
         board.instance_variable_set(:@game_board, preset_board)
       end
 
-      it 'returns false' do
-        expect(board).not_to be_diagonal_win
+      it 'returns false for red' do
+        expect(board).not_to be_diagonal_win(red_win)
       end
     end
   end
