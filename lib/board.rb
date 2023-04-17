@@ -4,7 +4,6 @@ class Board
     @empty_peg = "\u25ef"
     @red_peg = "\e[91m\u2b24\e[0m"
     @blue_peg = "\e[94m\u2b24\e[0m"
-    @win_condition = [Array.new(4, @red_peg), Array.new(4, @blue_peg)]
     @game_board = Array.new(6, Array.new(7, @empty_peg).join(' '))
   end
 
@@ -20,31 +19,31 @@ class Board
     display_board
   end
 
-  def win?
-    [horizontal_win?, vertical_win?, diagonal_win?].include?(true)
+  def win?(color_win)
+    [horizontal_win?(color_win), vertical_win?(color_win), diagonal_win?(color_win)].include?(true)
   end
 
-  def horizontal_win?
+  def horizontal_win?(color_win)
     @game_board.any? do |row|
       row.split.each_cons(4).any? do |i|
-        @win_condition.include?(i)
+        color_win.eql?(i)
       end
     end
   end
 
-  def vertical_win?(board = @game_board)
+  def vertical_win?(color_win, board = @game_board)
     (0..6).any? do |num|
       column_stored = []
       board.each do |row|
         column_stored << row.split[num]
       end
       column_stored.each_cons(4).any? do |i|
-        @win_condition.include?(i)
+        color_win.eql?(i)
       end
     end
   end
 
-  def diagonal_win?
+  def diagonal_win?(color_win)
     n = 0
     modified_board = Array.new(2){ Array.new }
     @game_board.each do |r|
@@ -54,7 +53,7 @@ class Board
       modified_board[1] << r.rjust(increase_pad, 'x ')
       n += 1
     end
-    modified_board.any? { |i| vertical_win?(i) }
+    modified_board.any? { |i| vertical_win?(color_win, i) }
   end
 
   def draw?
