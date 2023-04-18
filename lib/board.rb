@@ -12,11 +12,11 @@ class Board
     puts @game_board.join("\n")
   end
 
-  def update_board(player, row, column)
-    @game_board[5 - row] = @game_board[5 - row].split
-    @game_board[5 - row][column - 1] = (player == 'red' ? @red_peg : @blue_peg)
-    @game_board[5 - row] = @game_board[5 - row].join(' ')
-    display_board
+  def update_board(board, player, row, column)
+    board[5 - row] = board[5 - row].split
+    board[5 - row][column - 1] = (player == 'red' ? @red_peg : @blue_peg)
+    board[5 - row] = board[5 - row].join(' ')
+    board
   end
 
   def win?(color_win)
