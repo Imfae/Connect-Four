@@ -1,17 +1,14 @@
 require_relative 'board'
+require_relative 'computer-player'
 
 class Game
+  include Alogrithm
   def initialize(board = Board.new)
-    @inputs_record = {
-      1 => 0,
-      2 => 0,
-      3 => 0,
-      4 => 0,
-      5 => 0,
-      6 => 0,
-      7 => 0
-    }
     @board = board
+    @empty_peg = "\u25ef"
+    @red_peg = "\e[91m\u2b24\e[0m"
+    @blue_peg = "\e[94m\u2b24\e[0m"
+    @win_conditions = { 'red' => Array.new(4, @red_peg), 'blue' => Array.new(4, @blue_peg) }
   end
 
   def gameplay
@@ -20,11 +17,13 @@ class Game
     victory_message(player_switch)
   end
 
-  def prompt_input
+  def prompt_input(player)
+    return @input = minimax(@board.game_board, true)[1] if player == 'blue'
+
     loop do
       @input = gets.chomp.to_i
       if @input.between?(1, 7)
-        puts 'The column filled. Please choose another.' if @inputs_record[@input] == 6
+        puts 'The column filled. Please choose another.' unless possible_moves(@board.game_board).include?(@input)
         break
       end
       puts 'The input is out of bounds. Please enter a number between 1 and 7.' unless @input.between?(1, 7)
@@ -34,12 +33,52 @@ class Game
   def player_switch
     loop do
       %w[red blue].each do |i|
-        prompt_input
-        @board.update_board(i, @inputs_record[@input], @input)
-        @inputs_record[@input] += 1
-        return i if @board.win? || @board.draw?
+        prompt_input(i)
+        update_board(@board.game_board, i, @input)
+        @board.display_board
+        return i if @board.win?(@win_conditions[i], 4) || @board.draw?
       end
     end
+  end
+
+  def possible_moves(board)
+    ary = []
+    7.times { |i| ary << i + 1 if board[0].split[i] == @empty_peg }
+    ary
+  end
+
+  def game_end(board)
+    @board.win?(@win_conditions['blue'], 4, board) || @board.win?(@win_conditions['red'], 4, board) || @board.draw?(board)
+  end
+
+  def evaluate_game(board)
+    if @board.win?(@win_conditions['blue'], 4, board)
+      42
+    elsif @board.win?(@win_conditions['red'], 4, board)
+      -42
+    elsif @board.draw?(board)
+      0
+    else
+      nonleaf_evaluation(board)
+    end
+  end
+
+  def nonleaf_evaluation(board)
+    score = 0
+    two_red = Array.new(2, @red_peg)
+    three_red = Array.new(3, @red_peg)
+    two_blue = Array.new(2, @blue_peg)
+    three_blue = Array.new(3, @blue_peg)
+    if @board.win?(two_red, 2, board)
+      score += 1
+    elsif @board.win?(three_red, 3, board)
+      score += 3
+    elsif @board.win?(two_blue, 2, board)
+      score -= 1
+    elsif @board.win?(three_blue, 3, board)
+      score -= 3
+    end
+    score
   end
 
   private
