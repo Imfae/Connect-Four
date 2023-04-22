@@ -45,7 +45,7 @@ describe Board do
             "#{red_peg} #{empty_peg} #{empty_peg} #{empty_peg} #{empty_peg} #{empty_peg} #{empty_peg}"
           ]
 
-          update = board.update_board(previous_board, 'red', 0, 1)
+          update = board.update_board(previous_board, 'red', 1)
           expect(update).to eql(new_board)
         end
       end
@@ -62,7 +62,7 @@ describe Board do
             "#{empty_peg} #{empty_peg} #{empty_peg} #{empty_peg} #{blue_peg} #{empty_peg} #{empty_peg}"
           ]
 
-          update = board.update_board(previous_board, 'blue', 0, 5)
+          update = board.update_board(previous_board, 'blue', 5)
           expect(update).to eql(new_board)
         end
       end
@@ -91,7 +91,7 @@ describe Board do
             "#{blue_peg} #{empty_peg} #{empty_peg} #{empty_peg} #{empty_peg} #{empty_peg} #{empty_peg}"
           ]
 
-          update = board.update_board(previous_board, 'red', 2, 1)
+          update = board.update_board(previous_board, 'red', 1)
           expect(update).to eql(new_board)
         end
       end
@@ -117,7 +117,7 @@ describe Board do
             "#{empty_peg} #{empty_peg} #{empty_peg} #{empty_peg} #{empty_peg} #{empty_peg} #{red_peg}"
           ]
 
-          update = board.update_board(previous_board, 'blue', 3, 7)
+          update = board.update_board(previous_board, 'blue', 7)
           expect(update).to eql(new_board)
         end
       end
@@ -143,7 +143,7 @@ describe Board do
             "#{empty_peg} #{empty_peg} #{empty_peg} #{red_peg} #{empty_peg} #{empty_peg} #{empty_peg}"
           ]
 
-          update = board.update_board(previous_board, 'blue', 5, 4)
+          update = board.update_board(previous_board, 'blue', 4)
           expect(update).to eql(new_board)
         end
       end
