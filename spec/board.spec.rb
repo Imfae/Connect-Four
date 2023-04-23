@@ -258,7 +258,27 @@ describe Board do
       end
     end
 
-    context 'when four consecutive blue pegs are in a backward diagonal' do
+    context 'when four consecutive red pegs are in a backward diagonal' do
+      
+      before do
+        preset_board = [
+          "#{blue_peg} #{blue_peg} #{blue_peg} #{red_peg} #{blue_peg} #{empty_peg} #{empty_peg}",
+          "#{blue_peg} #{blue_peg} #{red_peg} #{red_peg} #{red_peg} #{empty_peg} #{empty_peg}",
+          "#{blue_peg} #{blue_peg} #{red_peg} #{blue_peg} #{red_peg} #{red_peg} #{empty_peg}",
+          "#{red_peg} #{red_peg} #{blue_peg} #{red_peg} #{red_peg} #{red_peg} #{empty_peg}",
+          "#{blue_peg} #{red_peg} #{red_peg} #{red_peg} #{blue_peg} #{blue_peg} #{empty_peg}",
+          "#{blue_peg} #{blue_peg} #{red_peg} #{red_peg} #{red_peg} #{blue_peg} #{blue_peg}"
+        ]
+
+        board.instance_variable_set(:@game_board, preset_board)
+      end
+
+      it 'returns true for red' do
+        expect(board).to be_diagonal_win(red_win)
+      end
+    end
+
+    context 'when four consecutive blue pegs are in a forward diagonal' do
       
       before do
         preset_board = [
