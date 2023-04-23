@@ -40,7 +40,7 @@ class Board
   end
 
   def vertical_win?(color_win, length = 4, board = @game_board)
-    (0..6).any? do |num|
+    (0..8).any? do |num|
       column_stored = []
       board.each do |row|
         column_stored << row.split[num]
