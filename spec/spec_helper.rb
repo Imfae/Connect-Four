@@ -95,4 +95,10 @@ RSpec.configure do |config|
   # as the one that triggered the failure.
   Kernel.srand config.seed
 =end
+
+  RSpec.shared_context :colors do
+    let(:empty_peg) { "\u25ef" }
+    let(:red_peg) { "\e[91m\u2b24\e[0m" }
+    let(:blue_peg) { "\e[94m\u2b24\e[0m" }
+  end
 end

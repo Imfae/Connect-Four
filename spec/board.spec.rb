@@ -1,11 +1,9 @@
 require_relative '../lib/board'
 
 describe Board do
+  include_context :colors
 
   subject(:board) { described_class.new }
-  let(:empty_peg) { "\u25ef" }
-  let(:red_peg) { "\e[91m\u2b24\e[0m" }
-  let(:blue_peg) { "\e[94m\u2b24\e[0m" }
   let(:red_win) { Array.new(4, red_peg) }
   let(:blue_win) { Array.new(4, blue_peg) }
 
