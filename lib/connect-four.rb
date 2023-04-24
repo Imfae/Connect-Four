@@ -13,30 +13,51 @@ class Game
 
   def gameplay
     intro_message
+    opponent_message
+    choose_opponent
     @board.display_board
-    victory_message(player_switch)
+    player_switch
+    if @board.draw?(@board.game_board)
+      draw_message
+    else
+      victory_message(@last_player)
+    end
   end
 
-  def prompt_input(player)
-    return @input = minimax(@board.game_board, true)[1] if player == 'blue'
+  def choose_opponent
+    loop do
+      @opponent = gets.chomp.to_i
+      break if @opponent.between?(1, 2)
+
+      puts 'Input not supported. Please enter 1 or 2.'
+    end
+  end
+
+  def receive_input(player)
+    return @input = minimax(@board.game_board, true)[1] if player == 'blue' && @opponent == 2
 
     loop do
       @input = gets.chomp.to_i
       if @input.between?(1, 7)
-        puts 'The column filled. Please choose another.' unless possible_moves(@board.game_board).include?(@input)
-        break
+        if possible_moves(@board.game_board).include?(@input)
+          break
+        else
+          puts 'The column filled. Please choose another.'
+        end
+      else
+        puts 'The input is out of bounds. Please enter a number between 1 and 7.'
       end
-      puts 'The input is out of bounds. Please enter a number between 1 and 7.' unless @input.between?(1, 7)
     end
   end
 
   def player_switch
     loop do
       %w[red blue].each do |i|
-        prompt_input(i)
-        update_board(@board.game_board, i, @input)
+        puts "Player #{i}'s turn:"
+        receive_input(i)
+        @board.update_board(@board.game_board, i, @input)
         @board.display_board
-        return i if @board.win?(@win_conditions[i], 4) || @board.draw?
+        return @last_player = i if game_end(@board.game_board)
       end
     end
   end
@@ -51,36 +72,6 @@ class Game
     @board.win?(@win_conditions['blue'], 4, board) || @board.win?(@win_conditions['red'], 4, board) || @board.draw?(board)
   end
 
-  def evaluate_game(board)
-    if @board.win?(@win_conditions['blue'], 4, board)
-      42
-    elsif @board.win?(@win_conditions['red'], 4, board)
-      -42
-    elsif @board.draw?(board)
-      0
-    else
-      nonleaf_evaluation(board)
-    end
-  end
-
-  def nonleaf_evaluation(board)
-    score = 0
-    two_red = Array.new(2, @red_peg)
-    three_red = Array.new(3, @red_peg)
-    two_blue = Array.new(2, @blue_peg)
-    three_blue = Array.new(3, @blue_peg)
-    if @board.win?(two_red, 2, board)
-      score += 1
-    elsif @board.win?(three_red, 3, board)
-      score += 3
-    elsif @board.win?(two_blue, 2, board)
-      score -= 1
-    elsif @board.win?(three_blue, 3, board)
-      score -= 3
-    end
-    score
-  end
-
   private
 
   def intro_message
@@ -88,6 +79,10 @@ class Game
     puts 'Enter the number corresponding to a column to drop a piece.'
     puts 'The first player to get four pieces in a row, a column, or a diagonal wins!'
     puts
+  end
+
+  def opponent_message
+    puts 'Press 1 for a human v. human game and 2 for a human v. computer game.'
   end
 
   def victory_message(color)
@@ -99,5 +94,5 @@ class Game
   end
 end
 
-game = Game.new
-game.gameplay
+# game = Game.new
+# game.gameplay
