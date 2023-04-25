@@ -1,11 +1,12 @@
+require_relative 'pegs'
 
 class Board
+  include Pegs
+
   attr_reader :game_board
+  
   def initialize
-    @empty_peg = "\u25ef"
-    @red_peg = "\e[91m\u2b24\e[0m"
-    @blue_peg = "\e[94m\u2b24\e[0m"
-    @game_board = Array.new(6) { Array.new(7, @empty_peg).join(' ') }
+    @game_board = Array.new(6) { Array.new(7, empty_peg).join(' ') }
   end
 
   def display_board
@@ -17,12 +18,12 @@ class Board
     row_number = 5
     while row_number >= 0
       target_peg = board[row_number].split[column - 1]
-      break if target_peg == @empty_peg
+      break if target_peg == empty_peg
 
       row_number -= 1
     end
     board[row_number] = board[row_number].split
-    board[row_number][column - 1] = (player == 'red' ? @red_peg : @blue_peg)
+    board[row_number][column - 1] = (player == 'red' ? red_peg : blue_peg)
     board[row_number] = board[row_number].join(' ')
     board
   end
@@ -67,7 +68,7 @@ class Board
   def draw?(board = @game_board)
     board.all? do |row|
       row.split.all? do |element|
-        element != @empty_peg
+        element != empty_peg
       end
     end
   end

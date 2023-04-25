@@ -1,14 +1,14 @@
+require_relative 'pegs'
 require_relative 'board'
 require_relative 'computer-player'
 
 class Game
   include Alogrithm
+  include Pegs
+
   def initialize(board = Board.new)
     @board = board
-    @empty_peg = "\u25ef"
-    @red_peg = "\e[91m\u2b24\e[0m"
-    @blue_peg = "\e[94m\u2b24\e[0m"
-    @win_conditions = { 'red' => Array.new(4, @red_peg), 'blue' => Array.new(4, @blue_peg) }
+    @win_conditions = { 'red' => Array.new(4, red_peg), 'blue' => Array.new(4, blue_peg) }
   end
 
   def gameplay
@@ -53,7 +53,7 @@ class Game
   def player_switch
     loop do
       %w[red blue].each do |i|
-        puts "Player #{i}'s turn:"
+        puts "\nPlayer #{i}'s turn:"
         receive_input(i)
         @board.update_board(@board.game_board, i, @input)
         @board.display_board
@@ -64,7 +64,7 @@ class Game
 
   def possible_moves(board)
     ary = []
-    7.times { |i| ary << i + 1 if board[0].split[i] == @empty_peg }
+    7.times { |i| ary << i + 1 if board[0].split[i] == empty_peg }
     ary
   end
 
@@ -94,5 +94,5 @@ class Game
   end
 end
 
-# game = Game.new
-# game.gameplay
+game = Game.new
+game.gameplay
