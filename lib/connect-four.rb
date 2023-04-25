@@ -2,8 +2,9 @@ require_relative 'pegs'
 require_relative 'board'
 require_relative 'computer-player'
 
+## Class for the Connect-Four game
 class Game
-  include Alogrithm
+  include Algorithm
   include Pegs
 
   def initialize(board = Board.new)

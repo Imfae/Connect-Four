@@ -1,3 +1,4 @@
+# Colored pegs
 module Pegs
   def empty_peg
     "\u25ef"

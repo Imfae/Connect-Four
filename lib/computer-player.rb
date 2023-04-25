@@ -1,4 +1,6 @@
-module Alogrithm
+## Methods that make up the computer player's algorithm
+module Algorithm
+  # Assign a score to the given game board
   def evaluate_game(board)
     if @board.win?(@win_conditions['blue'], 4, board)
       100
@@ -11,6 +13,8 @@ module Alogrithm
     end
   end
 
+  # Used for nonleaf board states, the system calculates score according to the numbers of two
+  # consecutive pegs and three consecutive pegs for each color on the board.
   def scoring_system(score, str)
     two_red = "#{red_peg} #{red_peg}"
     three_red = "#{red_peg} #{red_peg} #{red_peg}"
@@ -24,6 +28,7 @@ module Alogrithm
     score - dup_str.scan(two_red).length + dup_str.scan(two_blue).length
   end
 
+  # Change board's columns to a format usable by scoring_system
   def inspect_vertical(board)
     9.times do |num|
       column_stored = ''
@@ -34,15 +39,19 @@ module Alogrithm
     end
   end
 
+  # Evaluate score for nonleaf board states
   def nonleaf_evaluation(board)
     score = 0
     
+    # Evaluate all rows
     board.each do |row|
       score = scoring_system(score, row)
     end
 
+    # Evaluate all columns
     inspect_vertical(board) { |column_stored| score = scoring_system(score, column_stored) }
 
+    # Evaluate all diagonals
     n = 0
     modified_boards = Array.new(2){ Array.new }
     board.each do |r|
@@ -56,6 +65,7 @@ module Alogrithm
       inspect_vertical(i) { |column_stored| score = scoring_system(score, column_stored) }
     end
     
+    # Final score
     score
   end
 
@@ -87,6 +97,7 @@ module Alogrithm
           end
         end
 
+        # Alpha-beta pruning
         if is_maximizing
           if new_score > alpha
             alpha = new_score

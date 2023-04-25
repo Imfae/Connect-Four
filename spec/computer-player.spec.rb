@@ -1,7 +1,7 @@
 require_relative '../lib/computer-player'
 require_relative '../lib/connect-four'
 
-describe Alogrithm do
+describe Algorithm do
   include_context :colors
 
   let(:dummy_class) { Game.new { extend Alogrithm } }

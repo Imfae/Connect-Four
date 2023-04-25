@@ -1,10 +1,11 @@
 require_relative 'pegs'
 
+## Board and board related
 class Board
   include Pegs
 
   attr_reader :game_board
-  
+
   def initialize
     @game_board = Array.new(6) { Array.new(7, empty_peg).join(' ') }
   end
