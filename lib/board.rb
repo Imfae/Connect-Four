@@ -53,15 +53,15 @@ class Board
 
   def diagonal_win?(color_win, length = 4, board = @game_board)
     n = 0
-    modified_board = Array.new(2){ Array.new }
+    modified_boards = Array.new(2){ Array.new }
     board.each do |r|
       decrease_pad = (5 - n) * 2 + r.length
       increase_pad = n * 2 + r.length
-      modified_board[0] << r.rjust(decrease_pad, 'x ')
-      modified_board[1] << r.rjust(increase_pad, 'x ')
+      modified_boards[0] << r.rjust(decrease_pad, 'x ')
+      modified_boards[1] << r.rjust(increase_pad, 'x ')
       n += 1
     end
-    modified_board.any? { |i| vertical_win?(color_win, length, i) }
+    modified_boards.any? { |i| vertical_win?(color_win, length, i) }
   end
 
   def draw?(board = @game_board)
