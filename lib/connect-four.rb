@@ -28,7 +28,13 @@ class Game
   def choose_opponent
     loop do
       @opponent = gets.chomp.to_i
-      break if @opponent.between?(1, 2)
+      if @opponent.between?(1, 2)
+        puts "\nOne player's color is \e[91mred\e[0m, and the other's is \e[94mblue\e[0m.\n\e[91mRed\e[0m makes the first move!" if @opponent == 1
+        puts "\nNow, your color is \e[91mred\e[0m. And the computer's color is \e[94mblue\e[0m.\nMake the first move!" if @opponent == 2
+        puts "\n----------------------------------------------------"
+        puts
+        break
+      end
 
       puts 'Input not supported. Please enter 1 or 2.'
     end
@@ -41,6 +47,7 @@ class Game
       @input = gets.chomp.to_i
       if @input.between?(1, 7)
         if possible_moves(@board.game_board).include?(@input)
+          puts
           break
         else
           puts 'The column filled. Please choose another.'
@@ -54,7 +61,10 @@ class Game
   def player_switch
     loop do
       %w[red blue].each do |i|
-        puts "\nPlayer #{i}'s turn:"
+        print "\nPlayer "
+        i == 'red' ? print("\e[91mred\e[0m's ") : print("\e[94mblue\e[0m's ")
+        print "turn:"
+        puts
         receive_input(i)
         @board.update_board(@board.game_board, i, @input)
         @board.display_board
@@ -76,18 +86,19 @@ class Game
   private
 
   def intro_message
+    puts
     puts 'Welcome to the game of Connect 4!'
-    puts 'Enter the number corresponding to a column to drop a piece.'
-    puts 'The first player to get four pieces in a row, a column, or a diagonal wins!'
+    puts
+    puts 'Enter the number corresponding to a column to drop a colored piece. The first player to get four pieces in a row, a column, or a diagonal wins!'
     puts
   end
 
   def opponent_message
-    puts 'Press 1 for a human v. human game and 2 for a human v. computer game.'
+    puts 'Press (1) for a human v. human game and (2) for a human v. computer game.'
   end
 
   def victory_message(color)
-    puts "\nPlayer #{color.capitalize} wins this round!"
+    puts "\n#{color.capitalize} wins this round!"
   end
 
   def draw_message
@@ -114,3 +125,4 @@ loop do
   puts "\nWould you like to play again? (y/n)"
   play_again? ? redo : break
 end
+
