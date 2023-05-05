@@ -16,7 +16,8 @@ describe Game do
       end
 
       it 'does not output error' do
-        expect(game).not_to receive(:puts)
+        error = 'Input not supported. Please enter 1 or 2.'
+        expect(game).not_to receive(:puts).with(error)
 
         game.choose_opponent
       end
@@ -30,7 +31,8 @@ describe Game do
       end
 
       it 'does not output error' do
-        expect(game).not_to receive(:puts)
+        error = 'Input not supported. Please enter 1 or 2.'
+        expect(game).not_to receive(:puts).with(error)
 
         game.choose_opponent
       end
@@ -76,7 +78,8 @@ describe Game do
         end
 
         it 'does not output error' do
-          expect(game).not_to receive(:puts)
+          error = 'The input is out of bounds. Please enter a number between 1 and 7.'
+          expect(game).not_to receive(:puts).with(error)
 
           game.receive_input('red')
         end
