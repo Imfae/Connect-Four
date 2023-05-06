@@ -73,7 +73,7 @@ module Algorithm
     if game_end(current_state) || depth == 0
       return [evaluate_game(current_state)]
     else
-      score = is_maximizing ? -100 : 100
+      score = is_maximizing ? -101 : 101
       next_move = 0
       possible_moves(current_state).each do |i|
         temp_board = current_state.dup
